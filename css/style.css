@@ -1,0 +1,109 @@
+/* Detail page */
+:root {
+    background: hsl(180, 80%, 90%);
+    font: 1em 微軟正黑體, 標楷體, sans-serif;
+}
+
+.txt-style {
+    resize: none;
+}
+
+section[class^="qust-"]:not(:empty){
+	border-bottom: 1px solid black;
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+}
+
+/* quiz item page */
+.sidebar{
+	position: absolute;
+    cursor: pointer;
+    transition: opacity 1s;
+    pointer-events: none;
+    border: 5px double hsl(0, 0%, 80%);
+    padding: 5px;
+    width: 10%;
+    opacity: 0;
+    right: 2%;
+}
+
+.showout{
+	opacity: 1!important;
+    pointer-events: auto!important;
+    z-index: 5;
+}
+
+.quizwrap{
+	position: absolute;
+}
+
+.formpaper{
+	min-height: 250px;
+	border: 1px double black;
+	background: white;
+	margin-top: 5px;
+    padding: 15px;
+}
+form .describe{
+    padding: 5px;
+    margin: 15px;
+    font-size: 1em;
+    height: 40px;
+    border-bottom: 1px solid grey;
+}
+
+form .form-group .control-label{
+    font-size: 1.5em;
+    font-weight: 500;
+    width: 100%;
+    text-align: left;
+    line-height: 1.5em;
+    color: hsl(0, 20%, 40%);
+}
+
+form textarea.autosize{
+    resize: none;
+    overflow: hidden;
+}
+
+form .btn:hover{
+    color: hsl(0, 0%, 90%);
+}
+
+form .btn:hover .txt-hover{
+    color: hsl(0, 0%, 90%);
+}
+
+form .m-g-t15{
+    margin-top: 17px;
+}
+
+form .hr{
+    border-top: 1px dashed hsla(0, 0%, 75%, 1);
+}
+
+form .input-group{
+    padding: 5px;
+    padding-top: 15px;
+}
+
+form .input-group-addon {
+    background: transparent;
+    border: 0;
+    padding: 10px 1em;
+}
+
+form .input-group-addon:empty {
+    background: transparent;
+    border: 0;
+    padding: 10px 1em;
+    width: 41px;
+}
+
+form label.space{
+    margin: 0 15px 15px 0;
+}
+
+form .form-group.select-group{
+    padding: 15px;
+}

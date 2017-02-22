@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>HTML Javascript 問卷第二版</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="library/datetimepicker/datetimepicke.min.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div class="container">
+		<form id="requestops" class="col-md-12">
+			<section class="qust-name col-md-12">
+				<div class="form-group">
+					<label class=" control-label" for="title">問卷標題:</label>
+					<input type="text" class="form-control" id="title" placeholder="請輸入問卷標題" required>
+				</div>
+				<div class="form-group">
+					<label class="label control-label" for="describe">問卷描述:</label>
+					<textarea class="form-control txt-style" rows="5" id="describe" placeholder="請輸入問卷描述" required></textarea>
+				</div>
+				<div class="form-group">
+					<label class="label control-label" for="welcome">感謝詞:</label>
+					<textarea class="form-control txt-style" rows="5" id="welcome" placeholder="感謝您的耐心填寫...."></textarea>
+				</div>
+			</section>
+			<section class="qust-ppl-detail col-md-12">
+				<label class="col-md-8" for="details">個人資料要求：<span><small>*無選擇則為匿名問卷</small></span></label>
+				<div class="btn-group col-md-8" data-toggle="buttons">
+					<label class="btn btn-default active col-md-2">
+						<input type="checkbox" name="details" value="0" autocomplete="off" checked>姓名
+					</label>
+					<label class="btn btn-default col-md-2">
+						<input type="checkbox" name="details" value="1" autocomplete="off">性別
+					</label>
+					<label class="btn btn-default col-md-2">
+						<input type="checkbox" name="details" value="2" autocomplete="off">出生年月日
+					</label>
+					<label class="btn btn-default col-md-2">
+						<input type="checkbox" name="details" value="3" autocomplete="off">電子郵件
+					</label>
+					<label class="btn btn-default col-md-2">
+						<input type="checkbox" name="details" value="4" autocomplete="off">職業
+					</label>
+				</div>
+			</section>
+			<section class="qust-image col-md-12"><!-- todo image background etc. --></section>
+			<section class="qust-duration col-md-12">
+				<label class="col-md-8" for="dates">問卷有效日期：</label>
+				<div class='col-md-5'>
+					<div class="form-group">
+						<div class='input-group date' id='startDate' title="開始日期">
+							<input type='text' class="form-control" placeholder="開始日期" required />
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class='col-md-5'>
+					<div class="form-group">
+						<div class='input-group date' id='endDate' title="結束日期">
+							<input type='text' class="form-control" placeholder="結束日期" />
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+					</div>
+				</div>
+			</section>
+			<div id="sub-btn" class="col-md-12"></div>
+		</form>
+	</div>
+	<script src="https://dl.dropboxusercontent.com/u/50502234/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="library/datetimepicker/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment-with-locales.js"></script>
+	<script src="library/datetimepicker/bootstrap-datetimepicker.js"></script>
+	<script src="js/localSaver.js"></script>
+</body>
+</html>

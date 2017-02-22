@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>問卷編輯</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="library/datetimepicker/datetimepicke.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <main class="col-md-8 quizwrap">
+            <form id="quiz-items" role="form" class="formpaper">
+                <div id="formpaper">
+                    <h1></h1>
+                    <p class="describe"></p>
+                    <div id="form-items"></div>
+                </div>
+                <div class="input-group">
+                    <select name="quiztype" class="form-control add">
+                        <option value="groupside">段落標題</option>
+                        <option value="sigleside">簡短問題</option>
+                        <option value="multiside">長篇問題</option>
+                        <option value="radioside">單選題</option>
+                        <option value="checkside">多選題</option>
+                        <option value="likerside">量表問題</option>
+                    </select>
+                    <div id="addon-btn-selector" class="input-group-btn">
+                        <div class="btn btn-add btn-info">新增問題&nbsp;
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+    <script src="https://dl.dropboxusercontent.com/u/50502234/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="library/datetimepicker/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment-with-locales.js"></script>
+    <script src="library/datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
