@@ -2,7 +2,7 @@
     'user strict';
 
     var wrapStyle = {
-        boxStyle: 'panel panel-main panel-info',
+        boxStyle: 'panel panel-main panel-info wraper-selector',
         boxHeader: 'panel-heading clearfix quiz-header',
         boxBody: 'panel-body quiz-body',
         delBtn: '<div class="btn btn-remove" title="刪除選項"><i class="glyphicon glyphicon-remove"></i></div>',
@@ -20,6 +20,11 @@
         addCheckbox: 'check',
         addmultRadio: 'liker',
     }
+
+    // 送出按鈕移動
+	function sideBarAnimate() {
+		$('#submit').stop().animate({ "top": ($(window).scrollTop() + ($(window).innerHeight() / 2)) + "px" }, "slow");
+	};
 
     // Template
     var sprintf = function(str) {
@@ -39,6 +44,26 @@
         return flag ? str : '';
     };
 
+    // 修改當前選擇區塊
+    var addSelectedClass = function(target){
+    	if(!$(target).hasClass('selected')){
+	    	$('#form-items').find('.selected').removeClass('selected');
+    		$(target).addClass('selected');
+    	}
+    }
+
+    // 確認是否為當前選擇區塊
+	var targetCheckIsSelected = function(target){
+
+		if(!$.contains($('.selected')[0], target)){
+			$('.wraper-selector').map(function(i, v){
+				if($.contains(v, target)) addSelectedClass(v);
+			})
+			return true;
+		}
+    }
+
+
     function quizItem(element) {
         var data = JSON.parse(localStorage.getItem('quizStorage'));
         this.quizbox = data.quiz;
@@ -46,6 +71,7 @@
         this.desc = data.describe;
         this.wrap = $(element);
         this.formWrap = $('#form-items');
+        this.counter = -1;
 
         var init = function() {
             var quizStyleBtn = $('#addon-btn-selector'),
@@ -57,6 +83,9 @@
             toolBox.describe.text(this.desc);
 
             $('#addon-btn-selector').on('click', function() { _this.creatItemListener($(toolBox.selectedZone).val()); })
+        	$(window).on('scroll', sideBarAnimate);
+
+        	$('#submit').on('click', this.getAllData);
         }
 
         init.call(this);
@@ -66,8 +95,9 @@
 		creatItemListener: function(options) {
 			var opt = options.slice(0, 5);
 
-			this.formWrap.find('.selector').removeClass('selector');
+			this.formWrap.find('.selected').removeClass('selected');
 			this.selectType=opt;
+			this.counter++;
 
 			switch (opt) {
 				case toolBox.addGroup:
@@ -170,11 +200,11 @@
 		},
 		itemTemplate: function() {
 			return ''+
-				'<div class="panel panel-main panel-info selector" data-type="'+this.selectType+'" >'+
-					'<div class=" panel-heading clearfix quiz-header">'+
+				'<div class="' + wrapStyle.boxStyle + ' selected" data-type="'+this.selectType+'" >'+
+					'<div class="' + wrapStyle.boxHeader + '">'+
 						this.itemHeader()+
 					'</div>'+
-					'<div class="panel-body quiz-body">'+
+					'<div class="' + wrapStyle.boxBody + '">'+
 						this.itemBody()+
 					'</div>'+
 				'</div>'
@@ -197,20 +227,20 @@
 				'<div class="form-group">'+
 					'<label class="control-label">是否必填</label>'+
 					'<label class="radio-inline space">'+
-						'<input type="radio" value="必填">必填'+
+						'<input type="radio" name="request'+this.counter+'" value="必填">必填'+
 					'</label>'+
 					'<label class="radio-inline space">'+
-						'<input type="radio" value="選填" checked >選填'+
+						'<input type="radio" name="request'+this.counter+'" value="選填" checked >選填'+
 					'</label>'+
 				'</div>';
 		},
 		groupZone: function(){
 			return ''+
-				'<div class="panel panel-main panel-info selector" data-type="'+this.selectType+'" >'+
-					'<div class=" panel-heading clearfix quiz-header">'+
+				'<div class="' + wrapStyle.boxStyle + ' selected" data-type="'+this.selectType+'" >'+
+					'<div class="' + wrapStyle.boxHeader + '">'+
 						this.itemHeader()+
 					'</div>'+
-					'<div class="panel-body quiz-body">'+
+					'<div class="' + wrapStyle.boxBody + '">'+
 						'<div class="form-group">'+
 							'<label class="control-label">段落標題</label>'+
 							'<textarea class="autosize form-control" name="title" rows="1"></textarea>'+
@@ -241,8 +271,7 @@
 		},
 		clickDirection: function(target){
 			target.off('click').on('click', function(){ 
-				$('.selector').removeClass('selector');
-				$(this).addClass('selector');
+				addSelectedClass(this);
 			});
 
 			return target;
@@ -259,11 +288,13 @@
 		},
 		addonItems: function(){
 			var htmlStru = $(this.answerTemplate());
-			if($.contains($('.selector')[0], arguments[0].target)){
-				htmlStru.find('.del-btn-selecotr').append(this.deleteBtnAdd('item'));
-				$('.selector').find('.insert-selector').append(htmlStru);
-				htmlStru.find('.input-type-selector').append($('<input type="'+htmlStru.parent().find('[type]').attr('type')+'" value="" disabled>'));
-			}
+			
+			targetCheckIsSelected(arguments[0].target);
+			
+			htmlStru.find('.del-btn-selecotr').append(this.deleteBtnAdd('item'));
+			$('.selected').find('.insert-selector').append(htmlStru);
+			htmlStru.find('.input-type-selector').append($('<input type="'+htmlStru.parent().find('[type]').attr('type')+'" value="" disabled>'));
+			
 		},
 		deleteItems: function(target){
 			if(target === 'panel') {
@@ -275,12 +306,16 @@
 					if($(arguments[1].target).parent().parent().parent().hasClass('input-group')) $(arguments[1].target).parent().parent().parent().remove();
 					else if($(arguments[1].target).parent().parent().hasClass('input-group')) $(arguments[1].target).parent().parent().remove();
 				}
+		},
+		getAllData: function(){
+			var data = new getAllDataList();
 		}
 	}
 
-	function sideBarAnimate() {
-		$('#sidebar').stop().animate({ "marginTop": ($(window).scrollTop() + 120) + "px" }, "slow");
-	};
+	function getAllDataList(){
+		this.formWrap = $('#form-items');
+	}
+
 
 	window.onload = new quizItem('#formpaper');
 }(window, document)

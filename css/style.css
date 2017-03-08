@@ -17,12 +17,13 @@ section[class^="qust-"]:not(:empty){
 /* quiz item page */
 .sidebar{
 	position: absolute;
+    top: 450px;
     cursor: pointer;
     transition: opacity 1s;
     pointer-events: none;
     border: 5px double hsl(0, 0%, 80%);
     padding: 5px;
-    width: 10%;
+    width: 80px;
     opacity: 0;
     right: 2%;
 }
@@ -31,6 +32,7 @@ section[class^="qust-"]:not(:empty){
 	opacity: 1!important;
     pointer-events: auto!important;
     z-index: 5;
+    margin: 35px 25px 0;
 }
 
 .quizwrap{
@@ -72,6 +74,10 @@ form .btn:hover{
 
 form .btn:hover .txt-hover{
     color: hsl(0, 0%, 90%);
+}
+
+.btn-info:hover{
+    border-color: hsl(0, 0%, 90%);
 }
 
 form .m-g-t15{
