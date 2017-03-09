@@ -80,8 +80,12 @@ form .btn:hover .txt-hover{
     border-color: hsl(0, 0%, 90%);
 }
 
-form .m-g-t15{
+.m-g-t15{
     margin-top: 17px;
+}
+
+.m-b-10{
+    margin-bottom: 10px;
 }
 
 form .hr{
@@ -112,4 +116,8 @@ form label.space{
 
 form .form-group.select-group{
     padding: 15px;
+}
+
+.red{
+    box-shadow: 0 0 4px 0 red;
 }

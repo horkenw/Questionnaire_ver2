@@ -76,20 +76,17 @@
         var init = function() {
             var quizStyleBtn = $('#addon-btn-selector'),
                 _this = this;
-        	// this.htmlStructure = [];
-            // this.doc.on('scroll', sideBarAnimate);
 
-            toolBox.title.text(this.title);
-            toolBox.describe.text(this.desc);
+			toolBox.title.text(this.title);
+			toolBox.describe.text(this.desc);
 
-            $('#addon-btn-selector').on('click', function() { _this.creatItemListener($(toolBox.selectedZone).val()); })
-        	$(window).on('scroll', sideBarAnimate);
+			$('#addon-btn-selector').on('click', function() { _this.creatItemListener($(toolBox.selectedZone).val()); })
+			$(window).on('scroll', sideBarAnimate);
 
-        	$('#submit').on('click', this.getAllData);
-        }
-
-        init.call(this);
-    }
+			$('#quiz-items').on('submit', $.proxy(this.getAllData, this))
+		}
+		init.call(this);
+	}
 
 	quizItem.prototype = {
 		creatItemListener: function(options) {
@@ -152,7 +149,7 @@
 			this.panelHeader = '單選問題';
 
 			var htmls=this.clickDirection($(this.itemTemplate())), 
-			answerZone = $('<div class="ans-selectors hr"></div>');
+			answerZone = $('<div class="form-group ans-selectors hr"></div>');
 
 			$(htmls).find('.del-btn-selecotr').append(this.deleteBtnAdd('panel'));
 			$(htmls).find('.quiz-body').append(answerZone);
@@ -168,7 +165,7 @@
 			this.panelHeader = '多選問題';
 
 			var htmls=this.clickDirection($(this.itemTemplate())), 
-			answerZone = $('<div class="ans-selectors hr"></div>');
+			answerZone = $('<div class="form-group ans-selectors hr"></div>');
 
 			$(htmls).find('.del-btn-selecotr').append(this.deleteBtnAdd('panel'));
 			$(htmls).find('.quiz-body').append(answerZone);
@@ -218,7 +215,7 @@
 			return ''+
 				'<div class="form-group">'+
 					'<label class="control-label">標題</label>'+
-					'<textarea class="autosize form-control" name="title" rows="1"></textarea>'+
+					'<textarea class="autosize form-control" name="title" rows="1" required></textarea>'+
 				'</div>'+
 				'<div class="form-group">'+
 					'<label class="control-label">說明</label>'+
@@ -227,10 +224,10 @@
 				'<div class="form-group">'+
 					'<label class="control-label">是否必填</label>'+
 					'<label class="radio-inline space">'+
-						'<input type="radio" name="request'+this.counter+'" value="必填">必填'+
+						'<input type="radio" name="request'+this.counter+'" value="true">必填'+
 					'</label>'+
 					'<label class="radio-inline space">'+
-						'<input type="radio" name="request'+this.counter+'" value="選填" checked >選填'+
+						'<input type="radio" name="request'+this.counter+'" value="false" checked >選填'+
 					'</label>'+
 				'</div>';
 		},
@@ -243,7 +240,7 @@
 					'<div class="' + wrapStyle.boxBody + '">'+
 						'<div class="form-group">'+
 							'<label class="control-label">段落標題</label>'+
-							'<textarea class="autosize form-control" name="title" rows="1"></textarea>'+
+							'<textarea class="autosize form-control" name="title" rows="1" required></textarea>'+
 						'</div>'+
 						'<div class="form-group">'+
 							'<label class="control-label">詳細描述</label>'+
@@ -298,24 +295,171 @@
 		},
 		deleteItems: function(target){
 			if(target === 'panel') {
+				// 刪除大項
 				if($(arguments[1].target).parent().parent().parent().parent().hasClass('panel')) $(arguments[1].target).parent().parent().parent().parent().remove();
 				else if($(arguments[1].target).parent().parent().parent().hasClass('panel')) $(arguments[1].target).parent().parent().parent().remove();
 			}
 			else 
 				if(target === 'item'){
-					if($(arguments[1].target).parent().parent().parent().hasClass('input-group')) $(arguments[1].target).parent().parent().parent().remove();
-					else if($(arguments[1].target).parent().parent().hasClass('input-group')) $(arguments[1].target).parent().parent().remove();
+					// 刪除單/複選選項
+					if($(arguments[1].target).parent().parent().parent().hasClass('input-group') &&
+						$(arguments[1].target).parent().parent().parent().parent().children().length > 1)
+							$(arguments[1].target).parent().parent().parent().remove();
+					else if($(arguments[1].target).parent().parent().hasClass('input-group') &&
+							$(arguments[1].target).parent().parent().parent().children().length > 1 ) 
+								$(arguments[1].target).parent().parent().remove();
 				}
 		},
-		getAllData: function(){
-			var data = new getAllDataList();
+		getAllData: function(evt){
+			evt.preventDefault();
+
+			var data = new getAllDataList(this.formWrap);
 		}
 	}
 
-	function getAllDataList(){
-		this.formWrap = $('#form-items');
+	function getAllDataList(target){
+		this.formWrap = target;
+		this.quizBox = {};
+		this.quizBox.dataCollect = [];
+		this.quizBox.sortCollect = [];
+		this.validate = false;
+		this.groupId = this.groupChildId = 0;
+		_that = this;
+
+		this.formWrap.children().each(function(i, v){
+			switch ($(v).data('type')){
+				case 'group':
+					this.groupFormat(v);
+					break;
+				case 'sigle':
+					this.QnAFormat(v, 'sigle');
+					break;
+				case 'multi':
+					this.QnAFormat(v, 'multi');
+					break;
+				case 'radio':
+					this.multiSelectFormat(v, 'radio');
+					break;
+				case 'check':
+					this.multiSelectFormat(v, 'check');
+					break;
+				case 'liker':
+					this.likerFormat(v, 'liker');
+					break;
+			}
+		}.bind(this))
+		console.log(this.quizBox)
 	}
 
+	getAllDataList.prototype = {
+		groupFormat: function(node){ //題組選項組成
+			var items = $(node).find('.form-group');
+			this.groupId = this.quizBox.dataCollect.length;
+			this.groupChildId = 0;
+			
+			this.quizBox.dataCollect.push({
+				id: this.groupId,
+				name: items.eq(0).find('textarea').val(),
+				describe: items.eq(1).find('textarea').val(),
+				children: []
+			})
+			this.quizBox.sortCollect.push({
+				id: this.groupId,
+				name: items.eq(0).find('textarea').val(),
+				children: []
+			})
+		},
+		QnAFormat: function(node, type){ //短 / 長篇問題組成
+			var items = $(node).find('.form-group');
+			this.groupChildId++;
 
+			if(!this.groupId){
+				this.wrapQnAContent(items, this.quizBox.dataCollect, this.quizBox.sortCollect, type);
+			}
+			else{
+				this.wrapQnAContent(items, this.quizBox.dataCollect[this.groupId].children, this.quizBox.sortCollect[this.groupId].children, type);	
+			}
+		},
+		wrapQnAContent: function(target, dataWrap, sortWrap, type){
+			dataWrap.push({
+				id: this.groupChildId,
+				parent: this.groupId,
+				name: target.eq(0).find('textarea').val(),
+				describe: target.eq(1).find('textarea').val(),
+				required: target.eq(2).find('[type="radio"]:checked').val(),
+				type: type
+			});
+			sortWrap.push({
+				id: this.groupChildId,
+				parent: this.groupId,
+				name: target.eq(0).find('textarea').val()
+			})
+		},
+		multiSelectFormat: function(node, type){ //多選欄位問題組成
+			var items = $(node).find('.form-group');
+			this.groupChildId++;
+
+			if(!this.groupId){
+				// 驗證不能為空的選項
+				// if($(items).eq(3).find('.insert-selector').length === 1 && !$(items).eq(3).find('textarea').val().length){
+				// 	$(items).eq(3).find('textarea').addClass('red');
+				// 	return false;
+				// }
+				this.wrapMultiContent(items, this.quizBox.dataCollect, this.quizBox.sortCollect, type);
+			}
+			else{
+				this.wrapMultiContent(items, this.quizBox.dataCollect[this.groupId].children, this.quizBox.sortCollect[this.groupId].children, type);	
+			}
+		},
+		wrapMultiContent: function(target, dataWrap, sortWrap, type){
+			var answers = [];
+
+			$(target).eq(3).find('textarea').each(function(i, v){
+				answers.push($(v).val());
+			})
+
+			dataWrap.push({
+				id: this.groupChildId,
+				parent: this.groupId,
+				name: target.eq(0).find('textarea').val(),
+				describe: target.eq(1).find('textarea').val(),
+				required: target.eq(2).find('[type="radio"]:checked').val(),
+				answerBox: answers,
+				type: type
+			});
+			sortWrap.push({
+				id: this.groupChildId,
+				parent: this.groupId,
+				name: target.eq(0).find('textarea').val()
+			})			
+		},
+		likerFormat: function(node, type){
+			var items = $(node).find('.form-group');
+
+			var warpLikerContent = function(target, dataWrap, sortWrap, type){
+				dataWrap.push({
+				id: this.groupChildId,
+				parent: this.groupId,
+				name: target.eq(0).find('textarea').val(),
+				describe: target.eq(1).find('textarea').val(),
+				required: target.eq(2).find('[type="radio"]:checked').val(),
+				answerBox: target.eq(3).find('select option:selected').val(),
+				type: type
+				});
+				sortWrap.push({
+					id: this.groupChildId,
+					parent: this.groupId,
+					name: target.eq(0).find('textarea').val()
+				})		
+			}
+
+			if(!this.groupId){
+				warpLikerContent.call(this, items, this.quizBox.dataCollect, this.quizBox.sortCollect, type);
+			}
+			else{
+				warpLikerContent.call(this,items, this.quizBox.dataCollect[this.groupId].children, this.quizBox.sortCollect[this.groupId].children, type);	
+			}
+		}
+	}
 	window.onload = new quizItem('#formpaper');
 }(window, document)
