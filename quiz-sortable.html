@@ -10,8 +10,8 @@
 </head>
 <body>
 	<div class="container">
-		<div class="col-md-8 quizwrap formpaper">
-			
+		<div class="col-md-8 list_wrap formpaper">
+			<ul class="list_items"></ul>
 		</div>
 	</div>
 	<script src="https://dl.dropboxusercontent.com/u/50502234/jquery.min.js"></script>
@@ -20,7 +20,8 @@
 	<script src="./js/nestableList.js"></script>
 	<script>
 		var data = JSON.parse(localStorage.getItem('quizBox'));
-		$('.quizwrap').menuData({
+		console.log(data);
+		$('.list_wrap').menuData({
 			maxDepth: 2,
 	        data: data,
 	        nestable: true

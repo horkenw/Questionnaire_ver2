@@ -1,32 +1,3 @@
-body {
-    position: relative;
-    margin: 0;
-    padding: 0;
-}
-
-.wrapper {
-    position: relative;
-    width: 200px;
-}
-
-.wrapper > div:first-of-type {
-    border-bottom: 2px solid grey;
-    text-align: center;
-}
-
-.wrapper > div:first-of-type > * {
-    display: inline-block;
-    margin-left: 15px;
-}
-
-.wrapper > div:first-of-type > span {
-    cursor: pointer;
-}
-
-.wrapper > div:first-of-type > span:hover {
-    color: hsl(0, 0%, 75%);
-}
-
 .list_items {
     position: relative;
     list-style: none;
@@ -48,7 +19,11 @@ body {
     padding: 5px;
     padding-left: 25px;
     box-sizing: border-box;
-    background: hsl(0, 0%, 75%);
+    background: hsl(195, 100%, 90%);
+}
+
+.list_handle:hover{
+    background: hsl(195, 100%, 60%);
 }
 
 .list_placeholder {

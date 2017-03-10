@@ -65,13 +65,13 @@
 
 
     function quizItem(element) {
+        var data = JSON.parse(localStorage.getItem('quizStorage'));
         this.quizbox = data.quiz;
         this.title = data.title;
         this.desc = data.describe;
         this.wrap = $(element);
         this.formWrap = $('#form-items');
         this.counter = -1;
-        var data = JSON.parse(localStorage.getItem('quizStorage'));
 
         var init = function() {
             var quizStyleBtn = $('#addon-btn-selector'),

@@ -31,6 +31,7 @@
         dragClass       : 'list_dragel',
         collapsedClass  : 'list_collapsed',
         placeClass      : 'list_placeholder',
+        noParents		: 'list_noparent',
         noDragClass     : 'list_nodrag',
         emptyClass      : 'list_empty',
         expendBtnHTML   : '<button data-action="expend" type="button">Expend</button>',
@@ -299,9 +300,12 @@
 			}
 			mouse.dirAx = newAx;
 
+			// If target has no Parents class
+			var noParents = this.dragEl.find(this.options.itemNodeName).hasClass(this.options.noParents);
+
 			/* Move horizontal */
 
-			if(mouse.dirAx && mouse.distAxX >= opt.threshold){
+			if(!noParents && mouse.dirAx && mouse.distAxX >= opt.threshold){
 				mouse.distAxX = 0;
 				prev = this.placeEl.prev(opt.itemNodeName);
 				// increase horizontal level if previous sibling exists and is not collapsed
@@ -372,6 +376,8 @@
 					list = $('<'+opt.listNodeName+'>').addClass(opt.listClass);
 					list.append(this.placeEl);
 					this.placeEl.replaceWith(this);
+				}else if(noParents && this.pointEl.parents(opt.listNodeName).length > 1){
+					return false;
 				}else if(before){
 					this.pointEl.before(this.placeEl);
 				}else{
