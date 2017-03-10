@@ -1,0 +1,122 @@
+body {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    position: relative;
+    width: 200px;
+}
+
+.wrapper > div:first-of-type {
+    border-bottom: 2px solid grey;
+    text-align: center;
+}
+
+.wrapper > div:first-of-type > * {
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.wrapper > div:first-of-type > span {
+    cursor: pointer;
+}
+
+.wrapper > div:first-of-type > span:hover {
+    color: hsl(0, 0%, 75%);
+}
+
+.list_items {
+    position: relative;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list_items .list_items{
+    padding-left: 30px;
+}
+
+.list_item {
+    border-radius: 3px;
+}
+
+.list_handle {
+    cursor: move;
+    margin: 7px 0;
+    padding: 5px;
+    padding-left: 25px;
+    box-sizing: border-box;
+    background: hsl(0, 0%, 75%);
+}
+
+.list_placeholder {
+    position: relative;
+    margin: 5px 0;
+    padding: 0;
+    min-height: 20px;
+    font-size: 0.8em;
+    line-height: 20px;
+    border: 1px dotted hsl(0, 0%, 70%);
+    background: hsla(220, 100%, 80%, 0.2);
+}
+
+.list_dragel {
+    position: absolute;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.list_handle i {
+    color: hsla(0, 0%, 50%, 0.7);
+    margin-right: 5px;
+}
+
+.wrapper .add_more {
+    text-align: center;
+    padding: 5px;
+    border: 2px solid hsl(185, 80%, 60%);
+    cursor: pointer;
+}
+
+.wrapper .add_more:active {
+    border: 2px solid hsl(185, 80%, 30%);
+}
+
+.list_item > button {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    float: left;
+    width: 25px;
+    height: 20px;
+    margin: 5px 0;
+    padding: 0;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    border: 0;
+    background: transparent;
+    font-size: 12px;
+    line-height: 1;
+    text-align: center;
+    font-weight: bold;
+}
+
+.list_item > button:before {
+    content: '+';
+    display: block;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    text-indent: 0;
+}
+
+.list_item.list_collapsed{
+    box-shadow: 0 0 0 1px skyblue, 0 2px 0 #fff, 0 3px 0 skyblue, 0 5px 0 #fff, 0 5.5px 0 skyblue;
+}
+
+.list_item > button[data-action="collapse"]:before {
+    content: '-';
+}

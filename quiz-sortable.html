@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>HTML Javascript 問卷題目排序</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./library/nestable/nestableStyle.css">
+	<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-8 quizwrap formpaper">
+			
+		</div>
+	</div>
+	<script src="https://dl.dropboxusercontent.com/u/50502234/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="./library/nestable/nestable.js"></script>
+	<script src="./js/nestableList.js"></script>
+	<script>
+		var data = JSON.parse(localStorage.getItem('quizBox'));
+		$('.quizwrap').menuData({
+			maxDepth: 2,
+	        data: data,
+	        nestable: true
+		})
+	</script>
+</body>
+</html>

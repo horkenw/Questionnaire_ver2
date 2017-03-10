@@ -35,7 +35,7 @@ function localSaver(){
 		this.storage.date.endDate = this.endDate.data("DateTimePicker").date();
 
 		localStorage.setItem('quizStorage', JSON.stringify(this.storage));
-		window.location.href = './quizpage.html'; 
+		window.location.href = './quiz-page.html'; 
 	}
 
 	this.startDate.datetimepicker({

@@ -65,13 +65,13 @@
 
 
     function quizItem(element) {
-        var data = JSON.parse(localStorage.getItem('quizStorage'));
         this.quizbox = data.quiz;
         this.title = data.title;
         this.desc = data.describe;
         this.wrap = $(element);
         this.formWrap = $('#form-items');
         this.counter = -1;
+        var data = JSON.parse(localStorage.getItem('quizStorage'));
 
         var init = function() {
             var quizStyleBtn = $('#addon-btn-selector'),
@@ -349,12 +349,14 @@
 			}
 		}.bind(this))
 		console.log(this.quizBox)
+		localStorage.setItem('quizBox', JSON.stringify(this.quizBox));
+		window.location.href = './quiz-sortable.html'; 
 	}
 
 	getAllDataList.prototype = {
 		groupFormat: function(node){ //題組選項組成
 			var items = $(node).find('.form-group');
-			this.groupId = this.quizBox.dataCollect.length;
+			this.groupId = this.quizBox.dataCollect.length+1;
 			this.groupChildId = 0;
 			
 			this.quizBox.dataCollect.push({
@@ -377,7 +379,7 @@
 				this.wrapQnAContent(items, this.quizBox.dataCollect, this.quizBox.sortCollect, type);
 			}
 			else{
-				this.wrapQnAContent(items, this.quizBox.dataCollect[this.groupId].children, this.quizBox.sortCollect[this.groupId].children, type);	
+				this.wrapQnAContent(items, this.quizBox.dataCollect[this.groupId-1].children, this.quizBox.sortCollect[this.groupId-1].children, type);	
 			}
 		},
 		wrapQnAContent: function(target, dataWrap, sortWrap, type){
@@ -408,7 +410,7 @@
 				this.wrapMultiContent(items, this.quizBox.dataCollect, this.quizBox.sortCollect, type);
 			}
 			else{
-				this.wrapMultiContent(items, this.quizBox.dataCollect[this.groupId].children, this.quizBox.sortCollect[this.groupId].children, type);	
+				this.wrapMultiContent(items, this.quizBox.dataCollect[this.groupId-1].children, this.quizBox.sortCollect[this.groupId-1].children, type);	
 			}
 		},
 		wrapMultiContent: function(target, dataWrap, sortWrap, type){
@@ -457,7 +459,7 @@
 				warpLikerContent.call(this, items, this.quizBox.dataCollect, this.quizBox.sortCollect, type);
 			}
 			else{
-				warpLikerContent.call(this,items, this.quizBox.dataCollect[this.groupId].children, this.quizBox.sortCollect[this.groupId].children, type);	
+				warpLikerContent.call(this,items, this.quizBox.dataCollect[this.groupId-1].children, this.quizBox.sortCollect[this.groupId-1].children, type);	
 			}
 		}
 	}

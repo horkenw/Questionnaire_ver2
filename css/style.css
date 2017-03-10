@@ -4,6 +4,9 @@
     font: 1em 微軟正黑體, 標楷體, sans-serif;
 }
 
+body, html{
+    background: transparent;
+}
 .txt-style {
     resize: none;
 }
@@ -46,6 +49,7 @@ section[class^="qust-"]:not(:empty){
 	margin-top: 5px;
     padding: 15px;
 }
+
 form .describe{
     padding: 5px;
     margin: 15px;
