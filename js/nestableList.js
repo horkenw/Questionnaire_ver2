@@ -13,8 +13,14 @@
 		this.addEvtAction = $.fn.addEvent;
 		this.dataArray = this.options.data.sortCollect;
 		this.orgArray = this.options.data.dataCollect;
+
+		var quizHeader = JSON.parse(localStorage.getItem('quizStorage'));
+		$('h1').text(quizHeader.title);
+
 		this.initItemList();
 		this.nestableList();
+
+		$('#quiz-after-sort').on('click', $.proxy(this.getAllData, this))
 	}
 	menuSetup.prototype = {
 		initItemList: function(){
@@ -33,10 +39,12 @@
 				clickCount = 0;
 
 			itemNodeName.append(itemLabel.clone().text(item.name))
-			itemNodeName.data({
-				name: item.name,
-				url: item.url
+			itemNodeName.attr({
+				'data-name': item.name,
+				'data-id': item.id
 			})
+			if(item.parent) itemNodeName.attr('data-parent', item.parent);
+				
 			if(item.children){ //add Second level
 				var secondul = $('<ul class="list_items"></ul>');
 					
@@ -55,6 +63,12 @@
 				maxDepth		: this.options.maxDepth,
 	       		threshold		: this.options.threshold
 			});
+		},
+		getAllData: function(evt){
+			evt.preventDefault();
+
+			var afterSort = this.el.parent().nestable('serialise');
+			console.log(afterSort);
 		}
 	}
 
