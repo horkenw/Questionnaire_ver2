@@ -356,14 +356,13 @@
 	getAllDataList.prototype = {
 		groupFormat: function(node){ //題組選項組成
 			var items = $(node).find('.form-group');
-			this.groupId = this.quizBox.dataCollect.length+1;
+			this.groupId = this.quizBox.sortCollect.length+1;
 			this.groupChildId = 0;
 			
 			this.quizBox.dataCollect.push({
 				id: this.groupId,
 				name: items.eq(0).find('textarea').val(),
-				describe: items.eq(1).find('textarea').val(),
-				children: []
+				describe: items.eq(1).find('textarea').val()
 			})
 			this.quizBox.sortCollect.push({
 				id: this.groupId,
@@ -379,7 +378,7 @@
 				this.wrapQnAContent(items, this.quizBox.dataCollect, this.quizBox.sortCollect, type);
 			}
 			else{
-				this.wrapQnAContent(items, this.quizBox.dataCollect[this.groupId-1].children, this.quizBox.sortCollect[this.groupId-1].children, type);	
+				this.wrapQnAContent(items, this.quizBox.dataCollect, this.quizBox.sortCollect[this.groupId-1].children, type);	
 			}
 		},
 		wrapQnAContent: function(target, dataWrap, sortWrap, type){
@@ -410,7 +409,7 @@
 				this.wrapMultiContent(items, this.quizBox.dataCollect, this.quizBox.sortCollect, type);
 			}
 			else{
-				this.wrapMultiContent(items, this.quizBox.dataCollect[this.groupId-1].children, this.quizBox.sortCollect[this.groupId-1].children, type);	
+				this.wrapMultiContent(items, this.quizBox.dataCollect, this.quizBox.sortCollect[this.groupId-1].children, type);	
 			}
 		},
 		wrapMultiContent: function(target, dataWrap, sortWrap, type){
@@ -459,7 +458,7 @@
 				warpLikerContent.call(this, items, this.quizBox.dataCollect, this.quizBox.sortCollect, type);
 			}
 			else{
-				warpLikerContent.call(this,items, this.quizBox.dataCollect[this.groupId-1].children, this.quizBox.sortCollect[this.groupId-1].children, type);	
+				warpLikerContent.call(this,items, this.quizBox.dataCollect, this.quizBox.sortCollect[this.groupId-1].children, type);	
 			}
 		}
 	}

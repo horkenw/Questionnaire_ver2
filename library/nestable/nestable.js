@@ -32,6 +32,7 @@
         collapsedClass  : 'list_collapsed',
         placeClass      : 'list_placeholder',
         noParents		: 'list_noparent',
+        noChildren		: 'list_noChildren',
         noDragClass     : 'list_nodrag',
         emptyClass      : 'list_empty',
         expendBtnHTML   : '<button data-action="expend" type="button">Expend</button>',
@@ -111,7 +112,6 @@
 			var onEndEvent = function(evt){
 				if(list.dragEl){
 					evt.preventDefault();
-					if (list.el.find('.click').length) list.el.find('.click').removeClass('click');
 					list.dragStop(evt.touches ? e.touches[0] : evt);
 				}
 				clearTimeout(list.options.longClick);
@@ -309,7 +309,7 @@
 				mouse.distAxX = 0;
 				prev = this.placeEl.prev(opt.itemNodeName);
 				// increase horizontal level if previous sibling exists and is not collapsed
-				if(mouse.dirX > 0 && prev.length && !prev.hasClass(opt.collapsedClass)){
+				if(mouse.dirX > 0 && prev.length && !prev.hasClass(opt.collapsedClass) && !prev.hasClass(opt.noChildren)){
 					// cannot increase level when item above is collapsed
 					list = prev.find(opt.listNodeName).last();
 					//check if depth is reached
@@ -402,18 +402,15 @@
 
 		dragStop: function(){
 			var el = this.dragEl.children(this.options.itemNodeName).first();
-			el.find('.click').removeClass('click').end().addClass('click');
-			this.placeEl.replaceWith(el.detach());
 			
-			data = this.serialize();
-			$(this.el).menuData('upDateList');
+			this.placeEl.replaceWith(el.detach());
 
 			this.dragEl.remove();
 			this.el.trigger('change');
-			if(this.hasNewRoot) this.dragRootEl.trigger('change');
+			if(this.hasNewRoot) this.dragRootEl.trigger('change', this.resetParent);
 			this.reset();
 		},
-		
+
         serialize: function()
         {
             var data,

@@ -7,8 +7,13 @@
 		threshold       : 20
 	}
 
+	function filterArray(array, value){
+		Array.filter
+	}
+
 	function menuSetup(el, options){
 		this.options = $.extend({}, menuOptions, options);
+		this.wrapBox = $(el);
 		this.el = $(el).find(menuOptions.listNodeName);
 		this.addEvtAction = $.fn.addEvent;
 		this.dataArray = this.options.data.sortCollect;
@@ -20,7 +25,8 @@
 		this.initItemList();
 		this.nestableList();
 
-		$('#quiz-after-sort').on('click', $.proxy(this.getAllData, this))
+		$('#quiz-after-sort').on('click', $.proxy(this.getAllData, this));
+		this.wrapBox.on('change', this.resetParent.bind(this))
 	}
 	menuSetup.prototype = {
 		initItemList: function(){
@@ -30,7 +36,8 @@
 
 			$(this.dataArray).each(function(i, v){
 				menu.el.append(menu.setItem(v));
-			})
+			});
+
 		},
 		setItem: function(item){
 			var itemNodeName = $('<li class="list_item" />'),
@@ -44,7 +51,7 @@
 				'data-id': item.id
 			})
 			if(item.parent) itemNodeName.attr('data-parent', item.parent);
-				
+
 			if(item.children){ //add Second level
 				var secondul = $('<ul class="list_items"></ul>');
 					
@@ -54,6 +61,7 @@
 					itemNodeName.append(secondul);
 				}							
 			}
+			else itemNodeName.addClass('list_noChildren');
 
 			return itemNodeName;
 		},
@@ -66,9 +74,29 @@
 		},
 		getAllData: function(evt){
 			evt.preventDefault();
+			var afterSort = this.el.parent().nestable('serialise'), newDataCollect = [];
+			
 
-			var afterSort = this.el.parent().nestable('serialise');
-			console.log(afterSort);
+			$(afterSort).each(function(i, v){
+				console.log(v)
+			})
+		},		
+		resetParent: function(){
+			var parentId = newId = 0;
+
+			this.el.find('.list_item').each(function(i, v){
+				if($(this).closest('ul').parent().hasClass('list_wrap')){
+					newId = $(this).parent().children().index(this);
+					$(this).attr('data-id', newId);
+					$(this).removeAttr('data-parent');
+				}
+				else if($(this).closest('ul').parent().is('li')){
+					parentId = $(this).closest('ul').parent().closest('li').data('id');
+					newId = $(this).closest('ul').children().index(this);
+					$(this).attr('data-id', newId);
+					$(this).attr('data-parent', parentId);
+				}
+			})
 		}
 	}
 
