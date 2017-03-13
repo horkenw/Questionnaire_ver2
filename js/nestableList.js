@@ -8,7 +8,10 @@
 	}
 
 	function filterArray(array, value){
-		Array.filter
+		
+		return array.filter(function(string){
+			return string.name === value;
+		})
 	}
 
 	function menuSetup(el, options){
@@ -74,12 +77,24 @@
 		},
 		getAllData: function(evt){
 			evt.preventDefault();
-			var afterSort = this.el.parent().nestable('serialise'), newDataCollect = [];
+			var afterSort = this.el.parent().nestable('serialise'), newDataCollect = [], data;
 			
 
-			$(afterSort).each(function(i, v){
-				console.log(v)
-			})
+			$(afterSort).each($.proxy(function(i, v){
+
+				data = filterArray(this.orgArray, v.name);
+				newDataCollect = newDataCollect.concat(data);
+				if(v.children){
+					newDataCollect[i].children = [];
+					$(v.children).each($.proxy(function(j, v){
+						data = filterArray(this.orgArray, v.name);
+						newDataCollect[i].children = newDataCollect[i].children.concat(data);
+					},this))
+				}
+			},this))
+			console.log(newDataCollect)
+			localStorage.setItem('quizAfterSort', JSON.stringify(newDataCollect));
+			window.location.href = './quiz-sortable.html';
 		},		
 		resetParent: function(){
 			var parentId = newId = 0;

@@ -370,7 +370,7 @@
 				children: []
 			})
 		},
-		QnAFormat: function(node, type){ //短 / 長篇問題組成
+		QnAFormat: function(node, type){ // 短/長篇問題組成
 			var items = $(node).find('.form-group');
 			this.groupChildId++;
 
