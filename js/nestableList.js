@@ -91,10 +91,9 @@
 						newDataCollect[i].children = newDataCollect[i].children.concat(data);
 					},this))
 				}
-			},this))
-			console.log(newDataCollect)
+			},this));
 			localStorage.setItem('quizAfterSort', JSON.stringify(newDataCollect));
-			window.location.href = './quiz-sortable.html';
+			window.location.href = './quiz-preview.html';
 		},		
 		resetParent: function(){
 			var parentId = newId = 0;

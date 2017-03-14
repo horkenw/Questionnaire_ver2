@@ -129,3 +129,60 @@ form .form-group.select-group{
 .red{
     box-shadow: 0 0 4px 0 red;
 }
+
+/* preview page */
+#viewer label{
+    display: block;
+    margin-bottom: 6px;
+    line-height: 19px;
+    font-weight: 400;
+    color: black;
+    white-space: normal;
+    text-align: left;
+    font-size: 1.2em;
+}
+
+#viewer .input input, #viewer .textarea  textarea{
+    display: block;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    height: 30px;
+    padding: 6px 10px;
+    outline: none;
+    border-width: 2px;
+    border-radius: 0;
+    background: #fff;
+    font: 1em/23px "微軟正黑體","標楷體",sans-serif;
+    color: #404040;
+    appearance: normal;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+#viewer .textarea  textarea{
+    height: auto;
+    resize: none;
+}
+
+#viewer .desc{
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #737373;
+    clear: both;
+}
+
+#viewer .quiz-title{
+    /* border: 1px solid black; */
+    font-size: 1.2em;
+    background: hsla(186, 100%, 50%, 0.1);
+}
+
+#viewer .inline-group .radio, #viewer .inline-group .checkbox{
+   margin: 0 35px 20px 30px; 
+}
+
+#viewer .ikfloat{
+    float: left;
+}
