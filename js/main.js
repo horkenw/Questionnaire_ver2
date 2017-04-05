@@ -22,7 +22,9 @@
     }
 
     // 送出按鈕移動
-	function sideBarAnimate() {
+	function sideBarAnimate(evt) {
+		if(document.documentElement.scrollTop+document.documentElement.clientHeight < document.documentElement.offsetHeight-100) $('#submit').addClass('showout');
+		else  $('#submit').removeClass('showout');
 		$('#submit').stop().animate({ "top": ($(window).scrollTop() + ($(window).innerHeight() / 2)) + "px" }, "slow");
 	};
 

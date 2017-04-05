@@ -4,7 +4,7 @@
 	}
 
 	var wrapStyle = {
-        boxStyle: 'col-sm-10 col-sm-offset-1',
+        boxStyle: 'col-sm-12',
         boxHeader: 'panel-heading clearfix quiz-header',
         boxBody: 'panel-body quiz-body',
         delBtn: '<div class="btn btn-remove" title="刪除選項"><i class="glyphicon glyphicon-remove"></i></div>',
@@ -16,7 +16,6 @@
 		this.rootWrap = $('#viewer');
 		this.counter = 0;
 		var quizHeader = JSON.parse(localStorage.getItem('quizStorage'));
-		console.log(this.data);
 
 		var initView = function(){
 			$('h1').text(quizHeader.title);
@@ -171,5 +170,14 @@
 	}
 
 	window.onload = new createView();
-	$('#back-to-modify').on('click', urlRedirect.bind(this, './index.html'));
+	$('#back-to-modify').on('click', function(){
+		var quizBox = JSON.parse(localStorage.getItem('quizStorage'));
+		quizBox.editQuize = true;
+		localStorage.setItem('quizStorage', JSON.stringify(quizBox));
+		urlRedirect.call(this, './index.html');
+	});
+	$('#quiz-submit').on('click', function(){
+		localStorage.setItem('quizStorage', '');
+		urlRedirect.call(this, './index.html');
+	});
 })(window.jQuery, window, document)

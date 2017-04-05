@@ -66,21 +66,18 @@
     float: left;
     width: 25px;
     height: 20px;
-    margin: 5px 0;
+    margin: 15px 0;
+    margin-left: 5px;
     padding: 0;
     text-indent: 100%;
     white-space: nowrap;
     overflow: hidden;
     border: 0;
     background: transparent;
-    font-size: 12px;
-    line-height: 1;
-    text-align: center;
-    font-weight: bold;
 }
 
 .list_item > button:before {
-    content: '+';
+    content: '十';
     display: block;
     position: absolute;
     width: 100%;
@@ -93,5 +90,5 @@
 }
 
 .list_item > button[data-action="collapse"]:before {
-    content: '-';
+    content: '─';
 }
